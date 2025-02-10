@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSU Research Terminal</title>
+    <style>
+        body {
+            background-color: black;
+            color: green;
+            font-family: "Courier New", Courier, monospace;
+            padding: 20px;
+        }
+        #terminal {
+            width: 80%;
+            height: 400px;
+            border: 1px solid green;
+            padding: 10px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        input {
+            background: black;
+            color: green;
+            border: none;
+            font-family: "Courier New", Courier, monospace;
+            width: 80%;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+<h2>MSU RESEARCH TERMINAL - HALLOWAY</h2>
+<div id="terminal">
+    > Welcome to the MSU Archives Terminal.<br>
+    > Type "help" for a list of commands.<br>
+</div>
+<input type="text" id="input" autofocus>
+
+<script>
+    const terminal = document.getElementById("terminal");
+    const input = document.getElementById("input");
+    const correctCode = "196347"; // Example correct access code
+
+    function appendToTerminal(text) {
+        terminal.innerHTML += "> " + text + "<br>";
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            let command = input.value.trim().toLowerCase();
+            input.value = "";
+
+            appendToTerminal(command);
+
+            if (command === "help") {
+                appendToTerminal("Available commands: cd, ls, open hidden_notes.txt, input [code]");
+            } else if (command === "cd /tome/records") {
+                appendToTerminal("You are now in /tome/records/");
+            } else if (command === "ls -a") {
+                appendToTerminal(". .. cassette1 cassette2 hidden_notes.txt");
+            } else if (command === "open hidden_notes.txt") {
+                appendToTerminal("ACCESS CODE REQUIRED\nHINT: Year of the Library’s Grand Opening + (Side A Track Count × Side B Track Count)");
+            } else if (command.startsWith("input ")) {
+                let code = command.split(" ")[1];
+                if (code === correctCode) {
+                    appendToTerminal("ACCESS GRANTED. Location: MSU Archives Basement - Shelf 23.6.17");
+                } else {
+                    appendToTerminal("ACCESS DENIED. Incorrect code.");
+                }
+            } else {
+                appendToTerminal("Command not recognized. Type 'help' for a list of commands.");
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
